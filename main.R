@@ -93,7 +93,7 @@ if (exists("for_bot")) {
 			
 			dbWriteTable(pool,
 									 value = DT,
-									 name = db_tables[1],
+									 name = db_tables$table_name[1],
 									 append = T,
 									 row.names = F)
 			
