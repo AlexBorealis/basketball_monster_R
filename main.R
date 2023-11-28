@@ -12,7 +12,7 @@ source(paste0(getwd(), "/need_pckgs.R"),
 source(paste0(getwd(), "/engine.R"),
 			 local = T)
 
-## Reading needed variables (for bots, for DB, for telegram and for site
+## Reading needed variables (for bots, for DB, for telegram and for site)
 token <- data.table(read.table("bots_vars.txt", header = T))[name == "basketball_monster", value]
 
 for_db <- data.table(read.table("db_vars.txt", header = T))
