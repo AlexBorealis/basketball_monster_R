@@ -1,7 +1,5 @@
 repeat {
 	
-	## Load packages
-	source(paste0(getwd(), "/main.R"),
-				 local = T)
+	source(paste0(getwd(), "/main.R"), local = T)
 	
 }
