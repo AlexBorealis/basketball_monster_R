@@ -26,8 +26,6 @@ db_tables <- data.table(read.table("db_tables.txt", header = T))
 ## Creation class Bot
 bot <- Bot(token = token)
 
-updates <- bot$getUpdates()
-
 # Read main html
 main_html <- read_html(for_url[name == "url", value]) |>
 	html_elements(xpath = "//*[@class='q-su-holder']")
