@@ -12,6 +12,7 @@ source(paste0(getwd(), "/need_pckgs.R"),
 source(paste0(getwd(), "/engine.R"),
 			 local = T)
 
+## Reading needed variables (for bots, for DB, for telegram and for site
 token <- data.table(read.table("bots_vars.txt", header = T))[name == "basketball_monster", value]
 
 for_db <- data.table(read.table("db_vars.txt", header = T))
@@ -27,12 +28,18 @@ bot <- Bot(token = token)
 
 updates <- bot$getUpdates()
 
+# Read main html
 main_html <- read_html(for_url[name == "url", value]) |>
 	html_elements(xpath = "//*[@class='q-su-holder']")
 
+# Getting xml length
 length_list_player <- main_html |>
 	xml_length()
 
+# Main process
+# 1) Checking if an object 'for_bot' exists
+# 2) Checking if an identical object 'for_bot' and last changes fro site
+# 3) If last changes and 'for_bot' is not identical then send message to TG and in DB 
 if (exists("for_bot")) {
 	
 	if (identical(for_bot[status_player %like% "high level"], 
