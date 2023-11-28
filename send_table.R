@@ -2,6 +2,7 @@
 source(paste0(getwd(), "/need_pckgs.R"),
 			 local = T)
 
+## Reading needed variables (for bots, for DB, for telegram)
 token_1 <- data.table(read.table("bots_vars.txt", header = T))[name == "basketball_monster_table", value]
 
 for_db <- data.table(read.table("db_vars.txt", header = T))
@@ -15,6 +16,7 @@ bot <- Bot(token = token_1)
 
 updates <- bot$getUpdates()
 
+# Reading existing table from DB
 pool <- dbPool(RPostgreSQL::PostgreSQL(), 
 							 user = for_db[name == "user", value], 
 							 password = for_db[name == "password", value], 
@@ -37,6 +39,7 @@ alerts <- data.table(dbGetQuery(pool,
 
 poolClose(pool)
 
+# Creating xlsx table
 wb <- createWorkbook()
 
 addWorksheet(wb, sheetName = Sys.Date())
@@ -62,6 +65,7 @@ saveWorkbook(wb,
 						 "alerts.xlsx",
 						 overwrite = TRUE) # Saving excel document
 
+# Create image
 png(gsub(pattern = ".xlsx",
 				 replacement = ".png",
 				 x = list.files(getwd(), pattern = "alerts")),
@@ -72,5 +76,6 @@ png(gsub(pattern = ".xlsx",
 	  dev.off()
 	  graphics.off()
 
+# Sending image in TG
 bot$sendPhoto(chat_id = for_tg[name == "chat_id", value],
 							photo = paste0(getwd(), "/alerts.png"))
