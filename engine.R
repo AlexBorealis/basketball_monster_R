@@ -19,104 +19,102 @@ status_player <- function(i = 1) {
 		text_sub_level <- paste0(toupper("Off Injury Report "), gsub(text, pattern = "Off Injury Report", replacement = ""))
 		
 		} else
-			if (!is_empty(grep(text, pattern = "Questionable to return"))) {
+	if (!is_empty(grep(text, pattern = "Questionable to return"))) {
 		
-				text_sub_level <- paste0(toupper("Questionable to return "), gsub(text, pattern = "Questionable to return", replacement = ""))
+		text_sub_level <- paste0(toupper("Questionable to return "), gsub(text, pattern = "Questionable to return", replacement = ""))
 				
-				} else
-					if (!is_empty(grep(text, pattern = "Questionable"))) {
+		} else
+	if (!is_empty(grep(text, pattern = "Questionable"))) {
 						
-						text_sub_level <- paste0(toupper("Questionable "), gsub(text, pattern = "Questionable", replacement = ""))
+		text_sub_level <- paste0(toupper("Questionable "), gsub(text, pattern = "Questionable", replacement = ""))
 						
-						} else
-							if (!is_empty(grep(text, pattern = "Doubtful"))) {
+		} else
+	if (!is_empty(grep(text, pattern = "Doubtful"))) {
 								
-								text_sub_level <- paste0(toupper("Doubtful "), gsub(text, pattern = "Doubtful", replacement = ""))
+		text_sub_level <- paste0(toupper("Doubtful "), gsub(text, pattern = "Doubtful", replacement = ""))
 								
-								} else
-									if (!is_empty(grep(text, pattern = "Probable"))) {
+		} else
+	if (!is_empty(grep(text, pattern = "Probable"))) {
 										
-										text_sub_level <- paste0(toupper("Probable "), gsub(text, pattern = "Probable", replacement = ""))
+		text_sub_level <- paste0(toupper("Probable "), gsub(text, pattern = "Probable", replacement = ""))
 										
-										} else
-											if (!is_empty(grep(text, pattern = "Probable to return"))) {
+		} else
+	if (!is_empty(grep(text, pattern = "Probable to return"))) {
 												
-												text_sub_level <- paste0(toupper("Probable to return "), gsub(text, pattern = "Probable to return", replacement = ""))
+		text_sub_level <- paste0(toupper("Probable to return "), gsub(text, pattern = "Probable to return", replacement = ""))
 												
-												} else
-													if (!is_empty(grep(text, pattern = "Playing"))) {
+		} else
+	if (!is_empty(grep(text, pattern = "Playing"))) {
 														
-														text_sub_level <- paste0(toupper("Playing "), gsub(text, pattern = "Playing", replacement = ""))
+		text_sub_level <- paste0(toupper("Playing "), gsub(text, pattern = "Playing", replacement = ""))
 														
-														} else
-															if (!is_empty(grep(text, pattern = "Injured"))) {
+		} else
+	if (!is_empty(grep(text, pattern = "Injured"))) {
 																
-																text_sub_level <- paste0(toupper("Injured "), gsub(text, pattern = "Injured", replacement = ""))
+		text_sub_level <- paste0(toupper("Injured "), gsub(text, pattern = "Injured", replacement = ""))
 																
-															} else
-																if (!is_empty(grep(text, pattern = "To Bench with Injury"))) {
+		} else
+	if (!is_empty(grep(text, pattern = "To Bench with Injury"))) {
 																	
-																	text_sub_level <- paste0(toupper("OUT To Bench with Injury "), gsub(text, 
-																																																			pattern = "To Bench with Injury",
-																																																			replacement = "",
-																																																			ignore.case = T))
+		text_sub_level <- paste0(toupper("OUT To Bench with Injury "), gsub(text, 
+																																				pattern = "To Bench with Injury",
+																																				replacement = "",
+																																				ignore.case = T))
 																	
-																} else 
-																	if (!is_empty(grep(text, pattern = "ejected"))) {
+		} else 
+	if (!is_empty(grep(text, pattern = "ejected"))) {
 																		
-																		text_sub_level <- paste0(toupper("Out ejected "), gsub(text, pattern = "ejected", replacement = ""))
+		text_sub_level <- paste0(toupper("Out ejected "), gsub(text, pattern = "ejected", replacement = ""))
 																		
-																	} else
-																		if (!is_empty(grep(text, pattern = "In the Locker Room"))) {
+		} else
+	if (!is_empty(grep(text, pattern = "In the Locker Room"))) {
 																			
-																			text_sub_level <- paste0(toupper("OUT In the Locker Room "), gsub(text,
-																																																				pattern = "In the Locker Room",
-																																																				replacement = "",
-																																																				ignore.case = T))
+		text_sub_level <- paste0(toupper("OUT In the Locker Room "), gsub(text,
+																																			pattern = "In the Locker Room",
+																																			replacement = "",
+																																			ignore.case = T))
 																			
-																		} else
-																			if (!is_empty(grep(text, pattern = "Will not return"))) {
+		} else
+	if (!is_empty(grep(text, pattern = "Will not return"))) {
 																				
-																				text_sub_level <- paste0(toupper("Out Will not return "), gsub(text,
-																																																			 pattern = "Will not return",
-																																																			 replacement = ""))
+		text_sub_level <- paste0(toupper("Out Will not return "), gsub(text,
+																																	 pattern = "Will not return",
+																																	 replacement = ""))
 																				
-																			} else
-																				if (!is_empty(grep(text, pattern = "Available to Return"))) {
+		} else
+	if (!is_empty(grep(text, pattern = "Available to Return"))) {
 																					
-																					text_sub_level <- paste0(toupper("Out Available to Return "), gsub(text,
-																																																						 pattern = "Available to Return",
-																																																						 replacement = ""))
+		text_sub_level <- paste0(toupper("Out Available to Return "), gsub(text,
+																																			 pattern = "Available to Return",
+																																			 replacement = ""))
 																					
-																				} else
-																					if (!is_empty(grep(text, pattern = "Note"))) {
+		} else
+	if (!is_empty(grep(text, pattern = "Note"))) {
 																						
-																						text_sub_level <- paste0(toupper("Note "), gsub(text,
-																																														pattern = "Note",
-																																														replacement = ""))
+		text_sub_level <- paste0(toupper("Note "), gsub(text,
+																										pattern = "Note",
+																										replacement = ""))
 																						
-																					} else
-																						if (!is_empty(grep(text, pattern = "Off the Bench"))) {
+		} else
+	if (!is_empty(grep(text, pattern = "Off the Bench"))) {
 																							
-																							text_sub_level <- paste0(toupper("Out Off the Bench "), 
-																																			 gsub(text,
-																																			 		  pattern = "Off the Bench",
-																																			 		  replacement = ""))
+		text_sub_level <- paste0(toupper("Out Off the Bench "), gsub(text,
+																																 pattern = "Off the Bench",
+																																 replacement = ""))
 																							
-																						} else
-																							if (!is_empty(grep(text, pattern = "Doubtful to return", ignore.case = F))) {
+		} else
+	if (!is_empty(grep(text, pattern = "Doubtful to return", ignore.case = F))) {
 																								
-																								text_sub_level <- paste0(toupper("Doubtful to return "), 
-																																				 gsub(text,
-																																				 		  pattern = "Doubtful to return",
-																																				 		  replacement = "",
-																																				 		  ignore.case = F))
+		text_sub_level <- paste0(toupper("Doubtful to return "), gsub(text,
+																																	pattern = "Doubtful to return",
+																																	replacement = "",
+																																	ignore.case = F))
 																								
-																							} else {
+		} else {
 																								
-																								text_sub_level <- paste0(toupper("Out "), gsub(text,
-																																															 pattern = "Out",
-																																															 replacement = ""))
+		text_sub_level <- paste0(toupper("Out "), gsub(text,
+																									 pattern = "Out",
+																									 replacement = ""))
 																							
 																							 }
 	
@@ -125,20 +123,20 @@ status_player <- function(i = 1) {
 		paste0("low level - ", gsub(text_sub_level, pattern = "low level", replacement = ""))
 		
 	} else
-		if (!is_empty(grep(text_sub_level, pattern = "medium level"))) {
+	if (!is_empty(grep(text_sub_level, pattern = "medium level"))) {
 			
-			paste0("medium level - ", gsub(text_sub_level, pattern = "medium level", replacement = ""))
+		paste0("medium level - ", gsub(text_sub_level, pattern = "medium level", replacement = ""))
 			
-		} else
-			if (!is_empty(grep(text_sub_level, pattern = "high level"))) {
+	} else
+	if (!is_empty(grep(text_sub_level, pattern = "high level"))) {
 				
-				paste0("high level - ", gsub(text_sub_level, pattern = "high level", replacement = ""))
+		paste0("high level - ", gsub(text_sub_level, pattern = "high level", replacement = ""))
 				
-			} else {
+	} else {
 				
-				text_sub_level
+		text_sub_level
 				
-			}
+	}
 	
 }
 
