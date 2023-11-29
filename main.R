@@ -41,7 +41,8 @@ new_player <- map_dfr(1:length_list_player, \(j) {
 				   position_player = position_player(j),
 				   team = team(j))
 			
-		})[status_player %like% "high level"]
+		})[status_player %like% "high level"] |>
+	distinct(status_player, .keep_all = T)
 
 # Main process
 # 1) Checking if an object 'for_bot' exists
@@ -104,7 +105,8 @@ if (exists("for_bot")) {
 		data.table(name_player = name_player(j),
 			   status_player = status_player(j),
 			   position_player = position_player(j),
-			   team = team(j))
+			   team = team(j)) |>
+			distinct(status_player, .keep_all = T)
 		
 	})
 	
@@ -117,7 +119,8 @@ for_bot <- map_dfr(1:length_list_player, \(j) {
 						 position_player = position_player(j),
 						 team = team(j))
 	
-})
+}) |>
+	distinct(status_player, .keep_all = T)
 
 rm(list = ls() %>% .[. != "for_bot"])
 
