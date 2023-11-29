@@ -5,12 +5,10 @@ setwd(getwd())
 load(paste0(getwd(), "/", list.files(getwd(), pattern = ".RData")))
 
 ## Load packages
-source(paste0(getwd(), "/need_pckgs.R"),
-			 local = T)
+source(paste0(getwd(), "/need_pckgs.R"), local = T)
 
 ## Load engine
-source(paste0(getwd(), "/engine.R"),
-			 local = T)
+source(paste0(getwd(), "/engine.R"), local = T)
 
 ## Reading needed variables (for bots, for DB, for telegram and for site)
 token <- data.table(read.table("bots_vars.txt", header = T))[name == "basketball_monster", value]
