@@ -131,8 +131,8 @@ status_player <- function(i = 1) {
 			text_sub_level <- paste0(toupper("Out "), gsub(text,
 																										 pattern = "Out",
 																										 replacement = ""))
-																							
-																							 }
+			
+			}
 	
 	if (!is_empty(grep(text_sub_level, pattern = "low level"))) {
 		
