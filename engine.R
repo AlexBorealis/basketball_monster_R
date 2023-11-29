@@ -84,9 +84,9 @@ status_player <- function(i = 1) {
 		} else
 	if (!is_empty(grep(text, pattern = "Available to Return"))) {
 																					
-		text_sub_level <- paste0(toupper("Out Available to Return "), gsub(text,
-																																			 pattern = "Available to Return",
-																																			 replacement = ""))
+		text_sub_level <- paste0(toupper("Available to Return "), gsub(text,
+																																	 pattern = "Available to Return",
+																																	 replacement = ""))
 																					
 		} else
 	if (!is_empty(grep(text, pattern = "Note"))) {
