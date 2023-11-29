@@ -32,7 +32,12 @@ retry({
 	main_html <- read_html(for_url[name == "url", value]) |>
 		html_elements(xpath = "//*[@class='q-su-holder']")
 	
-}, until = ~ class(main_html) == "xml_nodeset", timeout = 5)
+}, until = ~ class({
+	
+	read_html(for_url[name == "url", value]) |>
+		html_elements(xpath = "//*[@class='q-su-holder']")
+	
+}) == "xml_nodeset")
 
 # Getting xml length
 length_list_player <- main_html |>
