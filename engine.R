@@ -56,30 +56,30 @@ status_player <- function(i = 1) {
 		} else
 	if (!is_empty(grep(text, pattern = "To Bench with Injury"))) {
 																	
-		text_sub_level <- paste0(toupper("OUT To Bench with Injury "), gsub(text, 
-																																				pattern = "To Bench with Injury",
-																																				replacement = "",
-																																				ignore.case = T))
+		text_sub_level <- paste0(toupper("To Bench with Injury "), gsub(text, 
+																																		pattern = "To Bench with Injury",
+																																		replacement = "",
+																																		ignore.case = T))
 																	
 		} else 
 	if (!is_empty(grep(text, pattern = "ejected"))) {
 																		
-		text_sub_level <- paste0(toupper("Out ejected "), gsub(text, pattern = "ejected", replacement = ""))
+		text_sub_level <- paste0(toupper("ejected "), gsub(text, pattern = "ejected", replacement = ""))
 																		
 		} else
 	if (!is_empty(grep(text, pattern = "In the Locker Room"))) {
 																			
-		text_sub_level <- paste0(toupper("OUT In the Locker Room "), gsub(text,
-																																			pattern = "In the Locker Room",
-																																			replacement = "",
-																																			ignore.case = T))
+		text_sub_level <- paste0(toupper("In the Locker Room "), gsub(text,
+																																	pattern = "In the Locker Room",
+																																	replacement = "",
+																																	ignore.case = T))
 																			
 		} else
 	if (!is_empty(grep(text, pattern = "Will not return"))) {
 																				
-		text_sub_level <- paste0(toupper("Out Will not return "), gsub(text,
-																																	 pattern = "Will not return",
-																																	 replacement = ""))
+		text_sub_level <- paste0(toupper("Will not return "), gsub(text,
+																															 pattern = "Will not return",
+																															 replacement = ""))
 																				
 		} else
 	if (!is_empty(grep(text, pattern = "Available to Return"))) {
@@ -98,9 +98,9 @@ status_player <- function(i = 1) {
 		} else
 	if (!is_empty(grep(text, pattern = "Off the Bench"))) {
 																							
-		text_sub_level <- paste0(toupper("Out Off the Bench "), gsub(text,
-																																 pattern = "Off the Bench",
-																																 replacement = ""))
+		text_sub_level <- paste0(toupper("Off the Bench "), gsub(text,
+																														 pattern = "Off the Bench",
+																														 replacement = ""))
 																							
 		} else
 	if (!is_empty(grep(text, pattern = "Doubtful to return", ignore.case = F))) {
@@ -110,11 +110,27 @@ status_player <- function(i = 1) {
 																																	replacement = "",
 																																	ignore.case = F))
 																								
+		} else
+		if (!is_empty(grep(text, pattern = "Back on bench", ignore.case = F))) {
+				
+			text_sub_level <- paste0(toupper("Back on bench "), gsub(text,
+																															 pattern = "Back on bench",
+																															 replacement = "",
+																															 ignore.case = F))
+				
+		} else
+		if (!is_empty(grep(text, pattern = "Has returned", ignore.case = F))) {
+				
+			text_sub_level <- paste0(toupper("Has returned "), gsub(text,
+																															pattern = "Has returned",
+																															replacement = "",
+																															ignore.case = F))
+				
 		} else {
 																								
-		text_sub_level <- paste0(toupper("Out "), gsub(text,
-																									 pattern = "Out",
-																									 replacement = ""))
+			text_sub_level <- paste0(toupper("Out "), gsub(text,
+																										 pattern = "Out",
+																										 replacement = ""))
 																							
 																							 }
 	
