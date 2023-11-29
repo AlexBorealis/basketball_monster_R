@@ -27,8 +27,12 @@ db_tables <- data.table(read.table("db_tables.txt", header = T))
 bot <- Bot(token = token)
 
 # Read main html
-main_html <- read_html(for_url[name == "url", value]) |>
-	html_elements(xpath = "//*[@class='q-su-holder']")
+retry({
+	
+	main_html <- read_html(for_url[name == "url", value]) |>
+		html_elements(xpath = "//*[@class='q-su-holder']")
+	
+}, until = ~ class(main_html) == "xml_nodeset", timeout = 5)
 
 # Getting xml length
 length_list_player <- main_html |>
