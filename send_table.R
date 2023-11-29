@@ -1,6 +1,5 @@
 ## Load packages
-source(paste0(getwd(), "/need_pckgs.R"),
-			 local = T)
+source(paste0(getwd(), "/need_pckgs.R"), local = T)
 
 ## Reading needed variables (for bots, for DB, for telegram)
 token_1 <- data.table(read.table("bots_vars.txt", header = T))[name == "basketball_monster_table", value]
@@ -13,8 +12,6 @@ db_tables <- data.table(read.table("db_tables.txt", header = T))
 
 ## Creation class Bot
 bot <- Bot(token = token_1)
-
-updates <- bot$getUpdates()
 
 # Reading existing table from DB
 pool <- dbPool(RPostgreSQL::PostgreSQL(), 
