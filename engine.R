@@ -132,29 +132,29 @@ status_player <- function(i = 1) {
 		text_sub_level <- text |> 
 			str_replace(pattern = "Doubtful to Return", replacement = toupper("Doubtful to Return "))
 																								
-		} else
-		if (!is_empty(grep(text, pattern = "Back on Bench", ignore.case = F))) {
+	} else
+	if (!is_empty(grep(text, pattern = "Back on Bench", ignore.case = F))) {
 				
-			text_sub_level <- text |> 
-				str_replace(pattern = "Back on Bench", replacement = toupper("Back on Bench "))
+		text_sub_level <- text |> 
+			str_replace(pattern = "Back on Bench", replacement = toupper("Back on Bench "))
 				
-		} else
-		if (!is_empty(grep(text, pattern = "Has Returned", ignore.case = F))) {
+	} else
+	if (!is_empty(grep(text, pattern = "Has Returned", ignore.case = F))) {
 				
-			text_sub_level <- text |> 
-				str_replace(pattern = "Has Returned", replacement = toupper("Has Returned "))
+		text_sub_level <- text |> 
+			str_replace(pattern = "Has Returned", replacement = toupper("Has Returned "))
 				
-		} else
-		if (!is_empty(grep(text, pattern = "Out", ignore.case = F))) {
+	} else
+	if (!is_empty(grep(text, pattern = "Out", ignore.case = F))) {
 				
-			text_sub_level <- text |> 
-				str_replace(pattern = "Out", replacement = toupper("Out "))
+		text_sub_level <- text |> 
+			str_replace(pattern = "Out", replacement = toupper("Out "))
 				
-		} else {
+	} else {
 																								
-			text_sub_level <- text
+		text_sub_level <- text
 			
-		}
+	}
 	
 	if (!is_empty(grep(text_sub_level, pattern = "low level"))) {
 		
