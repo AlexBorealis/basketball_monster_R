@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Ernest Benedito" />
+
+<meta name="date" content="2022-09-07" />
+
+<title>Introduction to the API</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction to the API</h1>
+<h4 class="author">Ernest Benedito</h4>
+<h4 class="date">2022-09-07</h4>
+
+
+
+<p>In this vignette you will learn how the Telegram Bot API works and
+how you can connect to it from R, with the following sections:</p>
+<ul>
+<li>Creating a Telegram Bot</li>
+<li>Introduction to the Telegram Bot API</li>
+<li>The <code>telegram.bot</code> Package</li>
+</ul>
+<div id="creating-a-telegram-bot" class="section level3">
+<h3>Creating a Telegram Bot</h3>
+<p>First, you must have or <a href="https://web.telegram.org">create a
+Telegram account</a>. Second, you’ll need to create a Telegram Bot in
+order to get an Access Token. You can do so by talking to <a href="https://telegram.me/botfather"><em><span class="citation">@BotFather</span></em></a> and following a <a href="https://core.telegram.org/bots#6-botfather">few simple steps</a>.
+Telegram bots can receive <em>messages</em> or <em>commands</em>. The
+former are simply text that you send as if you were sending a message to
+another person, while the latter are prefixed with a <code>/</code>
+character. To create a new bot, send the following command to
+<em>BotFather</em> as a chat (exactly as if you were talking to another
+person on Telegram):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/newbot</span></span></code></pre></div>
+<p>You should get a reply instantly that asks you to choose a name for
+your Bot. You have to send then the name you want for the bot, which can
+be anyone, for instance:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">RTelegramBot</span></span></code></pre></div>
+<p><em>BotFather</em> will now ask you to pick a username for your Bot.
+This username has to end in <code>bot</code>, and be globally unique. In
+this tutorial we’ll indicate the Bot’s username with
+<code>&lt;your-bot-username&gt;</code>, so you’ll have to substitute
+your chosen username wherever relevant from now on. Send your chosen
+username to <em>BotFather</em>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>your-bot-username<span class="op">&gt;</span></span></code></pre></div>
+<p>After doing so, <em>BotFather</em> will send you a “Congratulations”
+message, which will include a token. The token should look something
+like this:</p>
+<p><code>123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11</code></p>
+<p>For the rest of this tutorial, we’ll indicate where you need to put
+your token by using <code>&lt;your-bot-token&gt;</code> or just
+<code>TOKEN</code>. Take note of the token, as you’ll need it in the
+code that you are about to write.</p>
+</div>
+<div id="introduction-to-the-telegram-bot-api" class="section level3">
+<h3>Introduction to the Telegram Bot API</h3>
+<p>You can control your Bot by sending HTTPS requests to Telegram. This
+means that the simplest way to interact with your Bot is through a web
+browser. By visiting different URLs, you send different commands to your
+Bot. The simplest command is one where you get information about your
+Bot. Visit the following URL in your browser (substituting the
+<code>TOKEN</code> that you got before):</p>
+<p><code>https://api.telegram.org/bot&lt;your-bot-token&gt;/getMe</code></p>
+<p>The first part of the URL indicates that you want to communicate with
+the Telegram API (<code>api.telegram.org</code>). You follow this with
+<code>/bot</code> to say that you want to send a command to your Bot,
+and immediately after you add your <code>TOKEN</code> to identify which
+bot you want to send the command to and to prove that you own it.
+Finally, you specify the command that you want to send
+(<code>/getMe</code>) which in this case just returns basic information
+about our Bot using JSON.</p>
+<div id="retrieving-messages-sent-to-your-bot" class="section level4">
+<h4>Retrieving messages sent to your Bot</h4>
+<p>The simplest way to retrieve messages sent to your Bot is through the
+<code>getUpdates</code> call:</p>
+<p><code>https://api.telegram.org/bot&lt;your-bot-token&gt;/getUpdates</code></p>
+<p>If you this page you’ll get a JSON response of all the new messages
+sent to your Bot. Try sending a message to your Bot and visit that
+URL.</p>
+</div>
+<div id="sending-a-message-from-your-bot" class="section level4">
+<h4>Sending a message from your Bot</h4>
+<p>The final API call that we’ll try out in the browser is that used to
+send a message. To do this, you need the chat ID for the chat where you
+want to send the message. There are a bunch of different IDs in the JSON
+response from the <code>getUpdates</code> call, so make sure you get the
+right one. It’s the id field which is inside the chat field. Once you
+have this ID, visit the following URL in your browser, substituting
+<code>&lt;chat-id&gt;</code> for your chat ID.</p>
+<p><code>https://api.telegram.org/bot&lt;your-bot-token&gt;/sendMessage?chat_id=&lt;chat-id&gt;&amp;text=TestReply</code></p>
+<p>Once you’ve visited this URL, you should see a message from your Bot
+sent to your which says “TestReply”.</p>
+</div>
+</div>
+<div id="the-telegram.bot-package" class="section level3">
+<h3>The telegram.bot Package</h3>
+<p>You could program with R some functions that send these HTTPS
+requests and processes its responses. Fortunately, there is a package
+that allows you to do that: <code>telegram.bot</code>. It uses
+<code>httr</code> and <code>jsonlite</code> packages to do such work.
+Additionally, it features a number of tools to make the development of
+Telegram bots with R easy and straightforward, providing an easy-to-use
+interface that takes some work off the programmer.</p>
+<p>Thereby, the <code>telegram.bot</code> package consists of several
+<code>R6</code> classes, and the API is exposed via the <code>Bot</code>
+class. The methods names are equivalents of the methods described in the
+official <a href="https://core.telegram.org/bots/api">Telegram Bot
+API</a>. The exact <em>snake_case</em> method names are also available
+for your convenience. So for example <code>Bot$get_updates</code> is the
+same as <code>Bot$getUpdates</code>.</p>
+<div id="creating-a-bot-instance" class="section level4">
+<h4>Creating a Bot instance</h4>
+<p>To get a feeling for the API and how to use it with
+<code>telegram.bot</code>, we will reproduce the URL based example we
+just saw, done with R with this package.</p>
+<p>First, create an instance of the <code>Bot</code> class, where
+<code>TOKEN</code> should be replaced by the API token you received from
+<em><span class="citation">@BotFather</span></em>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;telegram.bot&quot;)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(telegram.bot)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>bot <span class="ot">&lt;-</span> <span class="fu">Bot</span>(<span class="at">token =</span> <span class="st">&quot;TOKEN&quot;</span>)</span></code></pre></div>
+<p>To check if your credentials are correct, call the <a href="https://core.telegram.org/bots/api#getme">getMe</a> API
+method:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(bot<span class="sc">$</span><span class="fu">getMe</span>())</span></code></pre></div>
+<p><strong>Note:</strong> Bots can’t initiate conversations with users.
+A user must either add them to a group or send them a message first.
+People can use <code>telegram.me/&lt;your-bot-username&gt;</code> links
+or username search to find your bot (searching for
+<code>@&lt;your-bot-username&gt;</code> in any of the Telegram
+clients).</p>
+</div>
+<div id="getting-and-retrieving-messages" class="section level4">
+<h4>Getting and retrieving messages</h4>
+<p>You can get updates from your bot with the command:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>updates <span class="ot">&lt;-</span> bot<span class="sc">$</span><span class="fu">getUpdates</span>()</span></code></pre></div>
+<p>This will retrieve a <code>list</code> generated from the JSON
+response from the server. In order to send a response, you can do it so
+with the following command:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>chat_id <span class="ot">&lt;-</span> <span class="st">&quot;CHAT_ID&quot;</span> <span class="co"># you can retrieve it from bot$getUpdates() after sending a message to the bot</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>bot<span class="sc">$</span><span class="fu">sendMessage</span>(<span class="at">chat_id =</span> chat_id, <span class="at">text =</span> <span class="st">&quot;TestReply&quot;</span>)</span></code></pre></div>
+</div>
+<div id="other-methods" class="section level4">
+<h4>Other methods</h4>
+<p>As you see, one of the core instances from the package is
+<code>Bot</code>, which represents a Telegram Bot. You can find a full
+list of the Telegram API methods implemented in its documentation
+(<code>?Bot</code>), but here there are a few more examples:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Send message</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>bot<span class="sc">$</span><span class="fu">sendMessage</span>(chat_id,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">text =</span> <span class="st">&quot;foo *bold* _italic_&quot;</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">parse_mode =</span> <span class="st">&quot;Markdown&quot;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Send photo</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>bot<span class="sc">$</span><span class="fu">sendPhoto</span>(chat_id,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">photo =</span> <span class="st">&quot;https://telegram.org/img/t_logo.png&quot;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Send audio</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>bot<span class="sc">$</span><span class="fu">sendAudio</span>(chat_id,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">audio =</span> <span class="st">&quot;http://www.largesound.com/ashborytour/sound/brobob.mp3&quot;</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Send document</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>bot<span class="sc">$</span><span class="fu">sendDocument</span>(chat_id,</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">document =</span> <span class="fu">paste0</span>(</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;https://github.com/ebeneditos/telegram.bot/raw/gh-pages/docs/&quot;</span>,</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;telegram.bot.pdf&quot;</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Send sticker</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>bot<span class="sc">$</span><span class="fu">sendSticker</span>(chat_id,</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">sticker =</span> <span class="st">&quot;https://www.gstatic.com/webp/gallery/1.webp&quot;</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Send video</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>bot<span class="sc">$</span><span class="fu">sendVideo</span>(chat_id,</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">video =</span> <span class="st">&quot;http://techslides.com/demos/sample-videos/small.mp4&quot;</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Send gif</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>bot<span class="sc">$</span><span class="fu">sendAnimation</span>(chat_id,</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">animation =</span> <span class="st">&quot;https://media.giphy.com/media/sIIhZliB2McAo/giphy.gif&quot;</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Send location</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>bot<span class="sc">$</span><span class="fu">sendLocation</span>(chat_id,</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">latitude =</span> <span class="fl">51.521727</span>,</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">longitude =</span> <span class="sc">-</span><span class="fl">0.117255</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Send chat action</span></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>bot<span class="sc">$</span><span class="fu">sendChatAction</span>(chat_id,</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">action =</span> <span class="st">&quot;typing&quot;</span></span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Get user profile photos</span></span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>photos <span class="ot">&lt;-</span> bot<span class="sc">$</span><span class="fu">getUserProfilePhotos</span>(<span class="at">user_id =</span> chat_id)</span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Download user profile photo</span></span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>file_id <span class="ot">&lt;-</span> photos<span class="sc">$</span>photos[[1L]][[1L]]<span class="sc">$</span>file_id</span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>bot<span class="sc">$</span><span class="fu">getFile</span>(file_id, <span class="at">destfile =</span> <span class="st">&quot;photo.jpg&quot;</span>)</span></code></pre></div>
+<p>Note that you can also send local files by passing their path instead
+of an URL. Additionally, all methods accept their equivalent
+<code>snake_case</code> syntax (e.g. <code>bot$get_me()</code> is
+equivalent to <code>bot$getMe()</code>).</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

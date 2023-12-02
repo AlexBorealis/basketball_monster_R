@@ -1,0 +1,6 @@
+## Setting directory
+setwd("D:/R/Work/My_scripts/basketball_monster/basketball_monster")
+
+## Load packages
+source(paste0(getwd(), "/need_pckgs.R"),
+			 local = T)
