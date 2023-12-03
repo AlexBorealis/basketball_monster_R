@@ -36,46 +36,54 @@ alerts <- data.table(dbGetQuery(pool,
 
 poolClose(pool)
 
-# Creating xlsx table
-wb <- createWorkbook()
-
-addWorksheet(wb, sheetName = Sys.Date() - 1)
-
-writeDataTable(wb,
+if (nrow(alerts) > 0) {
+	
+	# Creating xlsx table
+	wb <- createWorkbook()
+	
+	addWorksheet(wb, sheetName = Sys.Date() - 1)
+	
+	writeDataTable(wb,
+								 sheet = Sys.Date() - 1,
+								 x = alerts) # Creation table of articles and names in the beginning in document
+	
+	setColWidths(wb,
 							 sheet = Sys.Date() - 1,
-							 x = alerts) # Creation table of articles and names in the beginning in document
-
-setColWidths(wb,
-						 sheet = Sys.Date() - 1,
-						 cols = 1:ncol(alerts),
-						 widths = c(20, 50, 15, 10))
-
-addStyle(wb,
-				 sheet = Sys.Date() - 1,
-				 style = createStyle(halign = "center",
-				 										 valign = "center"),
-				 cols = 1:(ncol(alerts) + 1),
-				 rows = 1:(nrow(alerts) + 1),
-				 gridExpand = T)
-
-saveWorkbook(wb,
-						 "alerts.xlsx",
-						 overwrite = TRUE) # Saving excel document
-
-# Create image
-png(gsub(pattern = ".xlsx",
-				 replacement = ".png",
-				 x = list.files(getwd(), pattern = "alerts")),
-		height = 45*nrow(alerts),
-		width = 150*ncol(alerts))
-
-	  grid.table(alerts)
-	  dev.off()
-	  graphics.off()
-
-# Sending image in TG
-bot$sendPhoto(chat_id = for_tg[name == "chat_id", value],
-							photo = paste0(getwd(), "/alerts.png"))
+							 cols = 1:ncol(alerts),
+							 widths = c(20, 50, 15, 10))
+	
+	addStyle(wb,
+					 sheet = Sys.Date() - 1,
+					 style = createStyle(halign = "center",
+					 										valign = "center"),
+					 cols = 1:(ncol(alerts) + 1),
+					 rows = 1:(nrow(alerts) + 1),
+					 gridExpand = T)
+	
+	saveWorkbook(wb,
+							 "alerts.xlsx",
+							 overwrite = TRUE) # Saving excel document
+	
+	# Create image
+	png(gsub(pattern = ".xlsx",
+					 replacement = ".png",
+					 x = list.files(getwd(), pattern = "alerts")),
+			height = 45*nrow(alerts),
+			width = 150*ncol(alerts))
+	
+	grid.table(alerts)
+	dev.off()
+	graphics.off()
+	
+	# Sending image in TG
+	bot$sendPhoto(chat_id = for_tg[name == "chat_id", value],
+								photo = paste0(getwd(), "/alerts.png"))
+	
+} else {
+	
+	NULL
+	
+}
 
 rm(list = ls())
 
