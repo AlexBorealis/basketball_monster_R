@@ -23,8 +23,11 @@ pool <- dbPool(RPostgreSQL::PostgreSQL(),
 							 idleTimeout = 1,
 							 validationInterval = 0)
 
-alerts <- data.table(dbGetQuery(pool,
-																str_glue("select * from alerts where date_observ = '{Sys.Date() - 1}'")))[order(-time_observ)] %>%
+alerts <- data.table(
+	
+	dbGetQuery(pool, str_glue("select * from alerts where date_observ = '{Sys.Date() - 1}'"))
+	
+	)[order(-time_observ)] %>%
 	mutate(status_player = gsub(x = status_player, pattern = "high level - ", replacement = "")) %>%
 	distinct(status_player, .keep_all = T) %>%
 	distinct(name_player, .keep_all = T) %>%
