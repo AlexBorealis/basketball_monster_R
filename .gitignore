@@ -7,14 +7,16 @@
 /*.Rproj
 /*.here
 /renv
+*Tmp
 
 # History files
 /*.Rhistory
 /*.Rapp.history
 
 # Session Data files
-/*.RData
-/*.RDataTmp
+*.RData
+*.RDataTmp
+*.Tmp
 
 # User-specific files
 /*.Ruserdata
@@ -23,13 +25,13 @@
 /*-Ex.R
 
 # Output files from R CMD build
-/*.tar.gz
+*.tar.gz
 
 # Output files from R CMD check
-/*.Rcheck/
+*.Rcheck/
 
 # RStudio files
-/*.Rproj.user/
+*.Rproj.user/
 
 # produced vignettes
 vignettes/*.html
@@ -43,11 +45,11 @@ vignettes/*.pdf
 /cache/
 
 # Temporary files created by R markdown
-/*.utf8.md
-/*.knit.md
+*.utf8.md
+*.knit.md
 
 # R Environment Variables
-/*.Renviron
+*.Renviron
 
 # pkgdown site
 docs/
