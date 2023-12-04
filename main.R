@@ -1,8 +1,8 @@
-## Setting directory
+##Setting directory
 setwd(getwd())
 
 ## Load workspace
-load(paste0(getwd(), "/", list.files(getwd(), pattern = ".RData")))
+load(paste0(getwd(), "/basketball_monster_R.RData"))
 
 ## Load packages
 source(paste0(getwd(), "/need_pckgs.R"), local = T)
@@ -125,4 +125,4 @@ rm(list = ls() %>% .[. != "for_bot"])
 
 gc(reset = T, full = T)
 
-save.image(paste0(getwd(), "/", list.files(getwd(), pattern = ".RData")))
+save.image(paste0(getwd(), "/basketball_monster_R.RData"))
