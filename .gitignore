@@ -8,6 +8,7 @@
 /*.here
 /renv
 *Tmp
+cycle*
 
 # History files
 /*.Rhistory
