@@ -10,6 +10,9 @@ for_tg <- data.table(read.table("tg_vars.txt", header = T))
 
 db_tables <- data.table(read.table("db_tables.txt", header = T))
 
+# Days for report
+n = 0
+
 ## Creation class Bot
 bot <- Bot(token = token_1)
 
@@ -25,7 +28,7 @@ pool <- dbPool(RPostgreSQL::PostgreSQL(),
 
 alerts <- data.table(
 
-		     dbGetQuery(pool, str_glue("select * from alerts where date_observ = '{Sys.Date() - 1}'"))
+		     dbGetQuery(pool, str_glue("select * from alerts where date_observ = '{Sys.Date() - n}'"))
 		     
 		    )[order(-time_observ)] %>%
 	mutate(status_player = gsub(x = status_player, pattern = "high level - ", replacement = "")) %>%
@@ -44,19 +47,19 @@ if (nrow(alerts) > 0) {
 	# Creating xlsx table
 	wb <- createWorkbook()
 		
-	addWorksheet(wb, sheetName = Sys.Date() - 1)
+	addWorksheet(wb, sheetName = Sys.Date() - n)
 			
 	writeDataTable(wb,
-		       sheet = as.character(Sys.Date() - 1),
+		       sheet = as.character(Sys.Date() - n),
 		       x = alerts) # Creation table of articles and names in the beginning in document
 			
 	setColWidths(wb,
-		     sheet = as.character(Sys.Date() - 1),
+		     sheet = as.character(Sys.Date() - n),
 		     cols = 1:ncol(alerts),
 		     widths = c(20, 50, 15, 10))
 
 	addStyle(wb,
-		 sheet = as.character(Sys.Date() - 1),
+		 sheet = as.character(Sys.Date() - n),
 		 style = createStyle(halign = "center",
 				     valign = "center"),
 		 cols = 1:(ncol(alerts) + 1),
