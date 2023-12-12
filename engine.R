@@ -151,7 +151,7 @@ status_player <- function(i = 1) {
 			str_replace(pattern = "Out", replacement = toupper("Out "))
 				
 	} else
-  if (!is_empty(grep(text, pattern = "Starting", ignore.case = T))) {
+  	if (!is_empty(grep(text, pattern = "Starting", ignore.case = T))) {
 	
 		text_sub_level <- text |>
 			str_replace(pattern = "Starting", replacement = toupper("Starting"))
