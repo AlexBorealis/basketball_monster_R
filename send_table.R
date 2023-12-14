@@ -74,8 +74,8 @@ if (nrow(alerts) > 0) {
 	png(gsub(pattern = ".xlsx",
 		 replacement = ".png",
 		 x = list.files(getwd(), pattern = "alerts")),
-	    height = 45*nrow(alerts),
-	    width = 150*ncol(alerts))
+	    height = 35*nrow(alerts),
+	    width = 160*ncol(alerts))
 					
 	grid.table(alerts)
 	dev.off()
