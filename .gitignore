@@ -8,7 +8,10 @@
 /*.here
 /renv
 *Tmp
+<<<<<<< HEAD
 cycle*
+=======
+>>>>>>> origin/master
 
 # History files
 /*.Rhistory
