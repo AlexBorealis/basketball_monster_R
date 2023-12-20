@@ -75,7 +75,7 @@ if (nrow(alerts) > 0) {
 		 replacement = ".png",
 		 x = list.files(getwd(), pattern = "alerts")),
 	    height = 35*nrow(alerts),
-	    width = 160*ncol(alerts))
+	    width = 175*ncol(alerts))
 					
 	grid.table(alerts)
 	dev.off()
