@@ -27,17 +27,16 @@ pool <- dbPool(RPostgreSQL::PostgreSQL(),
 	       validationInterval = 0)
 
 alerts <- data.table(
-<<<<<<< HEAD
 
 		     dbGetQuery(pool, str_glue("select * from alerts where date_observ::date = '{Sys.Date() - n}'"))
 		     
 		    )[order(-date_observ)] %>%
 =======
 	
-	dbGetQuery(pool, str_glue("select * from alerts where date_observ = '{Sys.Date() - 1}'"))
+	dbGetQuery(pool, str_glue("select * from alerts where date_observ = '{Sys.Date() - 1}'")
 	
-	)[order(-time_observ)] %>%
->>>>>>> origin/master
+	)[order(-date_observ)] %>%
+
 	mutate(status_player = gsub(x = status_player, pattern = "high level - ", replacement = "")) %>%
 	distinct(status_player, .keep_all = T) %>%
 	distinct(name_player, .keep_all = T) %>%
@@ -50,7 +49,7 @@ alerts <- data.table(
 poolClose(pool)
 
 if (nrow(alerts) > 0) {
-<<<<<<< HEAD
+
 			
 	# Creating xlsx table
 	wb <- createWorkbook()
@@ -77,8 +76,7 @@ if (nrow(alerts) > 0) {
 	saveWorkbook(wb,
 		     "alerts.xlsx",
 		     overwrite = TRUE) # Saving excel document
-					
-	# Create image
+	
 	png(gsub(pattern = ".xlsx",
 		 replacement = ".png",
 		 x = list.files(getwd(), pattern = "alerts")),
@@ -96,55 +94,7 @@ if (nrow(alerts) > 0) {
 	} else {
 			
 	NULL
-		
-=======
-	
-	# Creating xlsx table
-	wb <- createWorkbook()
-	
-	addWorksheet(wb, sheetName = Sys.Date() - 1)
-	
-	writeDataTable(wb,
-								 sheet = Sys.Date() - 1,
-								 x = alerts) # Creation table of articles and names in the beginning in document
-	
-	setColWidths(wb,
-							 sheet = Sys.Date() - 1,
-							 cols = 1:ncol(alerts),
-							 widths = c(20, 50, 15, 10))
-	
-	addStyle(wb,
-					 sheet = Sys.Date() - 1,
-					 style = createStyle(halign = "center",
-					 										valign = "center"),
-					 cols = 1:(ncol(alerts) + 1),
-					 rows = 1:(nrow(alerts) + 1),
-					 gridExpand = T)
-	
-	saveWorkbook(wb,
-							 "alerts.xlsx",
-							 overwrite = TRUE) # Saving excel document
-	
-	# Create image
-	png(gsub(pattern = ".xlsx",
-					 replacement = ".png",
-					 x = list.files(getwd(), pattern = "alerts")),
-			height = 35*nrow(alerts),
-			width = 160*ncol(alerts))
-	
-	grid.table(alerts)
-	dev.off()
-	graphics.off()
-	
-	# Sending image in TG
-	bot$sendPhoto(chat_id = for_tg[name == "chat_id", value],
-								photo = paste0(getwd(), "/alerts.png"))
-	
-} else {
-	
-	NULL
-	
->>>>>>> origin/master
+
 }
 
 rm(list = ls())
