@@ -44,7 +44,7 @@ new_player <- map_dfr(1:length_list_player, \(j) {
 				   position_player = position_player(j),
 				   team = team(j))
 	
-	})[status_player %like% "high level"][order(name_player)]
+	})[status_player %like% "high level"]
 
 # Main process
 # 1) Checking if an object 'for_bot' exists
@@ -61,9 +61,8 @@ if (exists("for_bot")) {
 		DT <- data.table(date_observ = Sys.time(),
 				 anti_join(new_player,
 					   for_bot[status_player %like% "high level"],
-					   by = c("name_player", "status_player", "position_player", "team")))[!is.na(status_player)] |>
-			distinct(status_player, .keep_all = T) |>
-			distinct(name_player, .keep_all = T)
+					   by = c("name_player", "status_player")))[!is.na(status_player)] |>
+			distinct(name_player, status_player, .keep_all = T)
 		
 		if (nrow(DT) > 0) {
 			
@@ -87,8 +86,8 @@ if (exists("for_bot")) {
 			lst <- map(1:nrow(DT), \(i) {
 				
 				bot$sendMessage(chat_id = for_tg[name == "chat_id", value],
-						text = str_glue("{new_player$name_player[i]} {new_player$position_player[i]} ({new_player$team[i]})
-								{new_player$status_player[i]}") |> gsub(pattern = "high level - ", replacement = ""))
+						text = str_glue("{DT$name_player[i]} {DT$position_player[i]} ({DT$team[i]})
+								{DT$status_player[i]}") |> gsub(pattern = "high level - ", replacement = ""))
 				
 			})
 			
@@ -109,7 +108,7 @@ if (exists("for_bot")) {
 			   position_player = position_player(j),
 			   team = team(j))
 		
-	})[order(name_player)]
+	})
 	
 }
 
@@ -120,7 +119,7 @@ for_bot <- map_dfr(1:length_list_player, \(j) {
 		   position_player = position_player(j),
 		   team = team(j))
 	
-})[order(name_player)]
+})
 
 rm(list = ls() %>% .[. != "for_bot"])
 
