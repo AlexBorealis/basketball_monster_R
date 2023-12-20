@@ -31,11 +31,6 @@ alerts <- data.table(
 		     dbGetQuery(pool, str_glue("select * from alerts where date_observ::date = '{Sys.Date() - n}'"))
 		     
 		    )[order(-date_observ)] %>%
-=======
-	
-	dbGetQuery(pool, str_glue("select * from alerts where date_observ = '{Sys.Date() - 1}'")
-	
-	)[order(-date_observ)] %>%
 
 	mutate(status_player = gsub(x = status_player, pattern = "high level - ", replacement = "")) %>%
 	distinct(status_player, .keep_all = T) %>%
