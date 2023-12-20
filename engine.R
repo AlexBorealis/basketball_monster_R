@@ -55,15 +55,15 @@ status_player <- function(i = 1) {
 		text_sub_level <- text |> 
 			str_replace(pattern = "Doubtful to return", replacement = toupper("Doubtful to return "))
 			
-	} else if (!is_empty(grep(text, pattern = "Probable", ignore.case = T))) {
-			
-		text_sub_level <- text |> 
-			str_replace(pattern = "Probable", replacement = toupper("Probable "))
-			
 	} else if (!is_empty(grep(text, pattern = "Probable to return", ignore.case = T))) {
-		
+			
 		text_sub_level <- text |> 
 			str_replace(pattern = "Probable to return", replacement = toupper("Probable to return "))
+			
+	} else if (!is_empty(grep(text, pattern = "Probable", ignore.case = T))) {
+		
+		text_sub_level <- text |> 
+			str_replace(pattern = "Probable", replacement = toupper("Probable "))
 			
 	} else if (!is_empty(grep(text, pattern = "Playing", ignore.case = T))) {
 			

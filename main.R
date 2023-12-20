@@ -58,8 +58,7 @@ if (exists("for_bot")) {
 		
 	} else {
 		
-		DT <- data.table(date_observ = strftime(Sys.time(), format = "%Y-%m-%d"),
-				 time_observ = strftime(Sys.time(), format = "%H:%M:%S"),
+		DT <- data.table(date_observ = Sys.time(),
 				 anti_join(new_player,
 					   for_bot[status_player %like% "high level"],
 					   by = c("name_player", "status_player", "position_player", "team")))[!is.na(status_player)] |>
