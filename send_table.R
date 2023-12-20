@@ -28,9 +28,9 @@ pool <- dbPool(RPostgreSQL::PostgreSQL(),
 
 alerts <- data.table(
 
-		     dbGetQuery(pool, str_glue("select * from alerts where date_observ = '{Sys.Date() - n}'"))
+		     dbGetQuery(pool, str_glue("select * from alerts where date_observ::timestamp = '{Sys.Date() - n}'"))
 		     
-		    )[order(-time_observ)] %>%
+		    )[order(-date_observ)] %>%
 	mutate(status_player = gsub(x = status_player, pattern = "high level - ", replacement = "")) %>%
 	distinct(status_player, .keep_all = T) %>%
 	distinct(name_player, .keep_all = T) %>%
