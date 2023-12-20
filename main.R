@@ -28,9 +28,9 @@ bot <- Bot(token = token)
 
 # Read main html
 main_html <- read_html(for_url[name == "url", value], 
-											 handle = curl::new_handle("useragent" = "Mozilla/5.0"),
-											 options = c("RECOVER", "PEDANTIC"),
-											 verbose = T) |>
+		       handle = curl::new_handle("useragent" = "Mozilla/5.0"),
+		       options = c("RECOVER", "PEDANTIC"),
+		       verbose = T) |>
 	html_elements(xpath = "//*[@class='q-su-holder']")
 
 # Getting xml length
@@ -40,9 +40,9 @@ length_list_player <- main_html |>
 new_player <- map_dfr(1:length_list_player, \(j) {
 			
 			data.table(name_player = name_player(j),
-							   status_player = status_player(j),
-							   position_player = position_player(j),
-							   team = team(j))
+				   status_player = status_player(j),
+				   position_player = position_player(j),
+				   team = team(j))
 	
 	})[status_player %like% "high level"]
 
@@ -60,7 +60,6 @@ if (exists("for_bot")) {
 		
 
 		DT <- data.table(date_observ = Sys.time(),
-
 				 anti_join(new_player,
 					   for_bot[status_player %like% "high level"],
 					   by = c("name_player", "status_player", "position_player", "team")))[!is.na(status_player)] |>
@@ -107,9 +106,9 @@ if (exists("for_bot")) {
 	for_bot <- map_dfr(1:length_list_player, \(j) {
 		
 		data.table(name_player = name_player(j),
-						   status_player = status_player(j),
-						   position_player = position_player(j),
-						   team = team(j))
+			   status_player = status_player(j),
+			   position_player = position_player(j),
+			   team = team(j))
 		
 	})
 	
@@ -118,9 +117,9 @@ if (exists("for_bot")) {
 for_bot <- map_dfr(1:length_list_player, \(j) {
 	
 	data.table(name_player = name_player(j),
-						 status_player = status_player(j),
-						 position_player = position_player(j),
-						 team = team(j))
+		   status_player = status_player(j),
+		   position_player = position_player(j),
+		   team = team(j))
 	
 })
 
