@@ -53,13 +53,13 @@ new_player <- map_dfr(1:length_list_player, \(j) {
 if (exists("for_bot")) {
 	
 	if (identical(for_bot[status_player %like% "high level", .(name_player,
-																														 status_player,
-																														 position_player,
-																														 team)],
-								new_player[, .(name_player,
-															 status_player,
-															 position_player,
-															 team)])) {
+								   status_player,
+								   position_player,
+								   team)],
+		      new_player[, .(name_player,
+				     status_player,
+				     position_player,
+				     team)])) {
 		
 		NULL
 		
