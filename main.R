@@ -52,7 +52,14 @@ new_player <- map_dfr(1:length_list_player, \(j) {
 # 3) If last changes and 'for_bot' is not identical then send message to TG and in DB 
 if (exists("for_bot")) {
 	
-	if (identical(for_bot[status_player %like% "high level"], new_player)) {
+	if (identical(for_bot[status_player %like% "high level", .(name_player,
+																														 status_player,
+																														 position_player,
+																														 team)],
+								new_player[, .(name_player,
+															 status_player,
+															 position_player,
+															 team)])) {
 		
 		NULL
 		
