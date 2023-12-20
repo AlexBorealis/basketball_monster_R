@@ -31,7 +31,6 @@ alerts <- data.table(
 		     dbGetQuery(pool, str_glue("select * from alerts where date_observ::date = '{Sys.Date() - n}'"))
 		     
 		    )[order(-date_observ)] %>%
-
 	mutate(status_player = gsub(x = status_player, pattern = "high level - ", replacement = "")) %>%
 	distinct(status_player, .keep_all = T) %>%
 	distinct(name_player, .keep_all = T) %>%
@@ -44,7 +43,6 @@ alerts <- data.table(
 poolClose(pool)
 
 if (nrow(alerts) > 0) {
-
 			
 	# Creating xlsx table
 	wb <- createWorkbook()
@@ -76,7 +74,7 @@ if (nrow(alerts) > 0) {
 		 replacement = ".png",
 		 x = list.files(getwd(), pattern = "alerts")),
 	    height = 35*nrow(alerts),
-	    width = 175*ncol(alerts))
+	    width = 180*ncol(alerts))
 					
 	grid.table(alerts)
 	dev.off()
@@ -87,10 +85,10 @@ if (nrow(alerts) > 0) {
 		      photo = paste0(getwd(), "/alerts.png"))
 							
 	} else {
-			
-	NULL
-
-}
+		
+		NULL
+		
+	}
 
 rm(list = ls())
 

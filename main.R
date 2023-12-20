@@ -44,7 +44,7 @@ new_player <- map_dfr(1:length_list_player, \(j) {
 				   position_player = position_player(j),
 				   team = team(j))
 	
-	})[status_player %like% "high level"]
+	})[status_player %like% "high level"][order(name_player)]
 
 # Main process
 # 1) Checking if an object 'for_bot' exists
@@ -52,19 +52,11 @@ new_player <- map_dfr(1:length_list_player, \(j) {
 # 3) If last changes and 'for_bot' is not identical then send message to TG and in DB 
 if (exists("for_bot")) {
 	
-	if (identical(for_bot[status_player %like% "high level", .(name_player,
-																														 status_player,
-																														 position_player,
-																														 team)],
-								new_player[, .(name_player,
-															 status_player,
-															 position_player,
-															 team)])) {
+	if (identical(for_bot[status_player %like% "high level"], new_player)) {
 		
 		NULL
 		
 	} else {
-		
 
 		DT <- data.table(date_observ = Sys.time(),
 				 anti_join(new_player,
@@ -75,6 +67,23 @@ if (exists("for_bot")) {
 		
 		if (nrow(DT) > 0) {
 			
+			pool <- dbPool(RPostgreSQL::PostgreSQL(),
+										 user = for_db[name == "user", value], 
+										 password = for_db[name == "password", value], 
+										 dbname = for_db[name == "dbname", value], 
+										 host = for_db[name == "host", value],
+										 maxSize = 1,
+										 idleTimeout = 1,
+										 validationInterval = 0) # Connect to PostgreSQL
+			
+			dbWriteTable(pool,
+									 value = DT,
+									 name = db_tables$table_name[1],
+									 append = T,
+									 row.names = F)
+			
+			poolClose(pool)
+			
 			lst <- map(1:nrow(DT), \(i) {
 				
 				bot$sendMessage(chat_id = for_tg[name == "chat_id", value],
@@ -82,23 +91,6 @@ if (exists("for_bot")) {
 								{new_player$status_player[i]}") |> gsub(pattern = "high level - ", replacement = ""))
 				
 			})
-			
-			pool <- dbPool(RPostgreSQL::PostgreSQL(),
-				       user = for_db[name == "user", value], 
-				       password = for_db[name == "password", value], 
-				       dbname = for_db[name == "dbname", value], 
-				       host = for_db[name == "host", value],
-				       maxSize = 1,
-				       idleTimeout = 1,
-				       validationInterval = 0) # Connect to PostgreSQL
-			
-			dbWriteTable(pool,
-				     value = DT,
-				     name = db_tables$table_name[1],
-				     append = T,
-				     row.names = F)
-			
-			poolClose(pool)
 			
 		} else {
 			
@@ -117,7 +109,7 @@ if (exists("for_bot")) {
 			   position_player = position_player(j),
 			   team = team(j))
 		
-	})
+	})[order(name_player)]
 	
 }
 
@@ -128,7 +120,7 @@ for_bot <- map_dfr(1:length_list_player, \(j) {
 		   position_player = position_player(j),
 		   team = team(j))
 	
-})
+})[order(name_player)]
 
 rm(list = ls() %>% .[. != "for_bot"])
 
