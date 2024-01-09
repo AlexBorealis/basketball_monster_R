@@ -32,9 +32,10 @@ alerts <- data.table(
 		     
 		    )[order(-date_observ)] %>%
 
-	mutate(status_player = gsub(x = status_player, pattern = "high level - ", replacement = "")) %>%
-	distinct(status_player, .keep_all = T) %>%
-	distinct(name_player, .keep_all = T) %>%
+	mutate(status_player = gsub(x = status_player, pattern = "high level - ", replacement = "")) |>
+	group_by(name_player) |>
+	filter(row_number() == 1) |>
+        as.data.table()	%>%
 	.[, .(name_player,
 	      status_player,
 	      position_player,
