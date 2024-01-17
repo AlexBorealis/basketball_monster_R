@@ -140,7 +140,7 @@ status_player <- function(i = 1) {
 		text_sub_level <- text |>
 			str_replace(pattern = "Started 2nd Half", replacement = toupper("Started 2nd Half "))
 			
-	} else if (!is_empty(grep(text, pattern = "Traded", ignore.case = T)) {
+	} else if (!is_empty(grep(text, pattern = "Traded", ignore.case = T))) {
 
 		text_sub_level <- text |>
 			str_replace(pattern = "Traded", replacement = toupper("Traded "))
